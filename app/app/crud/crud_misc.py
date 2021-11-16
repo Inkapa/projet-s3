@@ -17,6 +17,9 @@ class CRUDSport(CRUDBase[Sport, None, None]):
     def get_by_name(self, db: Session, *, name: str) -> Optional[Sport]:
         return db.query(Sport).filter(Sport.name == name.lower()).first()
 
+    def get_by_name_progressive(self, db: Session, *, name: str) -> List[Sport]:
+        return db.query(Sport).filter(Sport.name.ilike(f'%{name.lower()}%')).all()
+
     def get_all(self, db: Session) -> List[Sport]:
         return db.query(Sport).all()
 

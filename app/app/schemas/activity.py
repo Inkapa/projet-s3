@@ -13,8 +13,7 @@ from app.schemas.misc import Sport, Level
 class ActivityBase(BaseModel):
     title: constr(max_length=50)
     description: constr(max_length=300)
-    start_date: datetime.date
-    end_date: Optional[datetime.date] = None
+    event_date: Optional[datetime.date] = None
     postcode: constr(strip_whitespace=True, min_length=3, max_length=5)
     address: Optional[constr(max_length=100)] = None
     image: Optional[constr(strip_whitespace=True, max_length=300)] = None
@@ -22,7 +21,7 @@ class ActivityBase(BaseModel):
 
 # Properties to receive on data creation
 class ActivityCreate(ActivityBase):
-    sport_name: constr(max_length=50)
+    sport_id: int
     levels: Optional[List[Literal["débutant", "amateur", "intermédiaire", "confirmé", "expert"]]] = ["débutant",
                                                                                                      "amateur",
                                                                                                      "intermédiaire",
@@ -34,12 +33,11 @@ class ActivityCreate(ActivityBase):
 class ActivityUpdate(ActivityBase):
     title: Optional[constr(max_length=50)] = None
     description: Optional[constr(max_length=300)] = None
-    start_date: Optional[datetime.date] = None
-    end_date: Optional[datetime.date] = None
+    event_date: Optional[datetime.date] = None
     postcode: Optional[constr(strip_whitespace=True, min_length=3, max_length=5)] = None
     address: Optional[constr(max_length=100)] = None
     image: Optional[constr(strip_whitespace=True, max_length=300)] = None
-    sport_name: Optional[constr(max_length=50)] = None
+    sport_id: Optional[int] = None
     levels: Optional[List[Literal["débutant", "amateur", "intermédiaire", "confirmé", "expert"]]] = ["débutant",
                                                                                                      "amateur",
                                                                                                      "intermédiaire",
@@ -49,7 +47,9 @@ class ActivityUpdate(ActivityBase):
 
 # Properties shared by models stored in DB
 class ActivityInDBBase(ActivityBase):
+    id: int
     organizer: constr(strip_whitespace=True, min_length=4, max_length=40)
+    publi_date: Optional[datetime.date] = datetime.date.today()
 
     class Config:
         orm_mode = True
@@ -57,9 +57,13 @@ class ActivityInDBBase(ActivityBase):
 
 # Properties to return to client
 class Activity(ActivityInDBBase):
-    participants: Optional[List[Account]] = None
     sport: Sport
     levels: List[Level]
+
+
+class ActivityWithParticipants(Activity):
+    participants: Optional[List[Account]] = None
+
 
 # Properties properties stored in DB
 class ActivityInDB(ActivityInDBBase):

@@ -26,17 +26,17 @@ def get_sports(
     data = crud.sport.get_all(db=db)
     return data
 
-@router.get("/sport/{name}", response_model=schemas.Sport)
-def get_sport_by_name(
+@router.get("/sport/{name}", response_model=List[schemas.Sport])
+def get_sports_by_name(
     db: Session = Depends(deps.get_db),
     *,
     name: constr(max_length=50, to_lower=True)
 ) -> Any:
     """
-    Retrieve a sport by its name
+    Retrieve sports by their name
     """
 
-    data = crud.sport.get_by_name(db=db, name=name)
+    data = crud.sport.get_by_name_progressive(db=db, name=name)
     return data
 
 

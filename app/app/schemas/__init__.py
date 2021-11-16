@@ -5,4 +5,4 @@ from .account import Account, AccountCreate, AccountInDB, AccountUpdate, Account
 from .role import Role, RoleCreate, RoleInDB, RoleUpdate
 from .reset_password import Reset_Password
 from .misc import Sport, Level
-from .activity import Activity, ActivityCreate
+from .activity import Activity, ActivityCreate, ActivityUpdate, ActivityWithParticipants
