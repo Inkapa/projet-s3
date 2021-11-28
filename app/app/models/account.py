@@ -31,9 +31,9 @@ class Account(Base):
     data = relationship("Account_Data", back_populates="owner", uselist=False)
     role = relationship("Role", backref="users")
     # created_activities
-    # activities
     # offers
     # emitted_reviews
     # received_reviews
     # sent_messages
     # received_messages
+    # participations

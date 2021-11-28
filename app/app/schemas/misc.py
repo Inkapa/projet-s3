@@ -5,6 +5,7 @@
 from pydantic import BaseModel, constr
 from typing import Optional
 
+
 class Sport(BaseModel):
     id: int
     name: constr(max_length=50, to_lower=True)
@@ -12,6 +13,7 @@ class Sport(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class Level(BaseModel):
     id: int

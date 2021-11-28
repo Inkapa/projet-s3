@@ -6,3 +6,4 @@ from .role import Role, RoleCreate, RoleInDB, RoleUpdate
 from .reset_password import Reset_Password
 from .misc import Sport, Level
 from .activity import Activity, ActivityCreate, ActivityUpdate, ActivityWithParticipants
+from .participation import Participation, ParticipationCreate, ParticipationActivity, ParticipationUser, CreateParticipationActivity, CreateParticipationUser

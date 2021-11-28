@@ -33,6 +33,6 @@ class Activity(Base):
     sport_id = Column(Integer, ForeignKey("sport.id"))
     organizer = Column(String, ForeignKey("account.username"))
     creator = relationship("Account", backref="created_activities", foreign_keys=[organizer])
-    participants = relationship("Account", secondary=Participation, backref="activities", lazy='subquery')
     sport = relationship("Sport", backref="activities", lazy='subquery')
     levels = relationship("Level", secondary=Reserved, backref="activities", lazy='subquery')
+    # participants

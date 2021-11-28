@@ -7,7 +7,7 @@ Created on Thu Oct 7 00:10:54 2021
 
 from fastapi import APIRouter
 
-from app.api.api_v1.endpoints import account_data, login, account, utils, home, register, verify, misc, activity
+from app.api.api_v1.endpoints import account_data, login, account, utils, home, register, verify, misc, activity, participation
 
 # All router endpoints are gathered here
 api_router = APIRouter()
@@ -20,3 +20,4 @@ api_router.include_router(register.router, prefix="/register", tags=["register"]
 api_router.include_router(verify.router, prefix="/verify", tags=["verify"])
 api_router.include_router(misc.router, prefix="/misc", tags=["misc"])
 api_router.include_router(activity.router, prefix="/activity", tags=["activity"])
+api_router.include_router(participation.router, prefix="/participation", tags=["participation"])

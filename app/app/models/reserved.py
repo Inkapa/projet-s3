@@ -7,7 +7,6 @@ Created on Mon Nov  8 00:17:04 2021
 
 from typing import TYPE_CHECKING
 from sqlalchemy import Table, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 

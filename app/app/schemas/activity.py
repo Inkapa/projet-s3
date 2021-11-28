@@ -9,6 +9,15 @@ from pydantic import BaseModel, constr
 from app.schemas.account import Account
 from app.schemas.misc import Sport, Level
 
+
+class ParticipationUser(BaseModel):
+    user: Account
+    level: Level
+
+    class Config:
+        orm_mode = True
+
+
 # Shared properties
 class ActivityBase(BaseModel):
     title: constr(max_length=50)
@@ -62,7 +71,7 @@ class Activity(ActivityInDBBase):
 
 
 class ActivityWithParticipants(Activity):
-    participants: Optional[List[Account]] = None
+    participants: Optional[List[ParticipationUser]] = None
 
 
 # Properties properties stored in DB
