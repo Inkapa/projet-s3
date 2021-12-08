@@ -14,6 +14,7 @@ from app.models.activity import Activity
 from app.models.account import Account
 from app.models.account_data import Account_Data
 from app.schemas.participation import ParticipationCreate
+from sqlalchemy import distinct
 
 
 class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
@@ -34,7 +35,7 @@ class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
             queries.append(Activity.postcode.ilike(f'%{postcode}%'))
         if level_names:
             level_ids = (level_obj.id for level_obj in level.get_by_names(db=db, names=level_names))
-            queries.append(Participation.c.level_id.in_(level_ids))
+            queries.append(Participation.level_id.in_(level_ids))
         return (
             db.query(Participation)
                 .join(Activity, Activity.id == Participation.activity_id)
@@ -49,11 +50,11 @@ class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
         queries = [Participation.activity_id == id]
         if level_names:
             level_ids = (level_obj.id for level_obj in level.get_by_names(db=db, names=level_names))
-            queries.append(Participation.c.level_id.in_(level_ids))
+            queries.append(Participation.level_id.in_(level_ids))
         if postcode:
             queries.append(Account_Data.postcode.ilike(f'%{postcode}%'))
         if role_ids:
-            queries.append(Account.c.role_id.in_(role_ids))
+            queries.append(Account.role_id.in_(role_ids))
         return (
             db.query(Participation)
                 .join(Account, Account.username == Participation.participant)
@@ -62,6 +63,36 @@ class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
                 .offset(offset)
                 .limit(limit)
                 .all())
+
+    def get_athletes(self, db: Session, current_account: str, postcodes: list, me_excluded: bool = True,
+                     sport_ids: list = [],
+                     level_names: list = [],
+                     offset: int = None, limit: int = None) -> List[Participation]:
+
+        queries = [(Account_Data.postcode.in_(tuple(postcodes))) | (Activity.postcode.in_(tuple(postcodes)))]
+        if me_excluded:
+            queries.append(Participation.participant != current_account)
+        if sport_ids:
+            queries.append(Activity.sport_id.in_(tuple(sport_ids)))
+        if level_names:
+            level_ids = (level_obj.id for level_obj in level.get_by_names(db=db, names=level_names))
+            queries.append(Participation.level_id.in_(level_ids))
+
+        return (
+            db.query(Participation)
+                .join(Activity, Activity.id == Participation.activity_id)
+                .join(Account, Account.username == Participation.participant)
+                .join(Account_Data, Account.username == Account_Data.owner_username)
+                .filter(*queries)
+                .offset(offset)
+                .limit(limit)
+                .all())
+
+    def get_nb_participants(self, db: Session, id: int) -> int:
+        return (
+            db.query(distinct(Participation.participant).label('participant_count'))
+              .filter(Participation.activity_id == id)
+              .count())
 
     def get_all(self, db: Session) -> List[Participation]:
         return db.query(Participation).all()

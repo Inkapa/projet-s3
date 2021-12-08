@@ -14,7 +14,7 @@ from app.db.base_class import Base
 if TYPE_CHECKING:
     from .account import Account  # noqa: F401
     from .activity import Activity  # noqa: F401
-    from .level import Level
+    from .level import Level  # noqa: F401
 
 
 class Participation(Base):

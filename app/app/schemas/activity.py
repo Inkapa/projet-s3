@@ -59,6 +59,7 @@ class ActivityInDBBase(ActivityBase):
     id: int
     organizer: constr(strip_whitespace=True, min_length=4, max_length=40)
     publi_date: Optional[datetime.date] = datetime.date.today()
+    participant_count: Optional[int] = 0
 
     class Config:
         orm_mode = True

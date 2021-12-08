@@ -4,13 +4,12 @@
 """
 
 from typing import Any, List, Optional, Literal, Union
-
+from pydantic import constr
 from fastapi import APIRouter, Depends, Query, HTTPException, Body
 from sqlalchemy.orm import Session
 import datetime
 from app import crud, models, schemas
 from app.api import deps
-
 router = APIRouter()
 
 
@@ -37,6 +36,7 @@ def create_activity_me(
         )
     activity = crud.activity.create_with_organizer(db=db, obj_in=data_in, organizer=current_account.username)
     return activity
+
 
 @router.put("/me", response_model=schemas.Activity)
 def update_activity_me(
@@ -123,7 +123,6 @@ def read_activity_with_id(
             status_code=404,
             detail="The specified activity was not found on the server",
         )
-    data.participants = crud.participation.get_by_activity(db=db, id=id)
     return data
 
 
@@ -163,6 +162,8 @@ def read_activities(
     active: Optional[bool] = None,
     sport_id: Optional[int] = None,
     postcode: Optional[str] = None,
+    exclude_participating: Optional[bool] = None,
+    me_excluded: Optional[bool] = None,
     offset: Optional[int] = None,
     limit: Optional[int] = None,
     levels: Optional[
@@ -175,7 +176,33 @@ def read_activities(
     """
 
     data = crud.activity.get_with_queries(
-        db=db, organizer=current_account.username, sport_id=sport_id, active=active, postcode=postcode, levels=levels,
-        offset=offset, limit=limit
+        db=db, current_account=current_account.username,
+        sport_id=sport_id, active=active, postcode=postcode, exclude_participating=exclude_participating,
+        me_excluded=me_excluded, levels=levels, offset=offset, limit=limit
     )
     return data
+
+@router.get("/user/{username}", response_model=List[schemas.Activity])
+def read_activities(
+    username: constr(strip_whitespace=True, min_length=4, max_length=40),
+    active: Optional[bool] = None,
+    sport_id: Optional[int] = None,
+    postcode: Optional[str] = None,
+    offset: Optional[int] = None,
+    limit: Optional[int] = None,
+    levels: Optional[
+            Union[List[Literal["débutant", "amateur", "intermédiaire", "confirmé", "expert"]], None]] = Query(None),
+    db: Session = Depends(deps.get_db),
+    current_account: models.Account = Depends(deps.get_current_active_account)
+) -> Any:
+    """
+    Retrieve activities created by the username.
+    """
+
+    data = crud.activity.get_with_queries(
+        db=db, organizer=username,
+        sport_id=sport_id, active=active, postcode=postcode,
+        levels=levels, offset=offset, limit=limit
+    )
+    return data
+

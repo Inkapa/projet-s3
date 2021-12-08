@@ -5,18 +5,18 @@ Created on Mon Nov  8 00:17:04 2021
 @author: Liam
 """
 from typing import TYPE_CHECKING
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, select, func, distinct
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.ext.hybrid import hybrid_property
 from app.db.base_class import Base
 
-from .participation import Participation
 from .reserved import Reserved
 
 if TYPE_CHECKING:
     from .account import Account  # noqa: F401
     from .sport import Sport  # noqa: F401
     from .level import Levels  # noqa: F401
+    from .participation import Participation # noqa: F401
 
 
 
@@ -35,4 +35,16 @@ class Activity(Base):
     creator = relationship("Account", backref="created_activities", foreign_keys=[organizer])
     sport = relationship("Sport", backref="activities", lazy='subquery')
     levels = relationship("Level", secondary=Reserved, backref="activities", lazy='subquery')
+
     # participants
+
+    @hybrid_property
+    def participant_count(self):
+        if self.participants:
+            return len(self.participants)
+        return 0
+
+    @participant_count.expression
+    def participant_count(cls):
+        return (select([func.count(distinct(Participation.participant))])
+                .where(Participation.activity_id == cls.id))

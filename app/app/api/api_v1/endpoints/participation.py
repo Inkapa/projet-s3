@@ -23,17 +23,29 @@ def add_participation_to_me(
     """
     Add participation to activity
     """
-
-    if not crud.activity.get_by_id(db=db, id=data_in.activity_id):
+    activity = crud.activity.get_by_id(db=db, id=data_in.activity_id)
+    if not activity:
         raise HTTPException(
             status_code=404,
             detail="The activity specified wasn't found on the server",
+        )
+
+    if activity.organizer == current_account.username:
+        raise HTTPException(
+            status_code=422,
+            detail=f"You are the creator of this activity.",
         )
 
     if crud.participation.get_by_user_and_id(db=db, id=data_in.activity_id, participant=current_account.username):
         raise HTTPException(
             status_code=422,
             detail="The account is already participating to this activity",
+        )
+    levels = [level.level for level in activity.levels]
+    if data_in.level not in levels:
+        raise HTTPException(
+            status_code=422,
+            detail=f"The activity only allows the following levels: {levels}.",
         )
 
     data = schemas.participation.ParticipationCreate(level=data_in.level, participant=current_account.username,
@@ -114,7 +126,7 @@ def read_participations_from_user(
 def read_participations_to_activity(
     id: int,
     postcode: Optional[str] = None,
-    roles: Optional[Union[List[Literal[0, 1, 2]], None]] = Query(None),
+    roles: Optional[Union[List[Literal['0', '1', '2']], None]] = Query(None),
     levels: Optional[
             Union[List[Literal["débutant", "amateur", "intermédiaire", "confirmé", "expert"]], None]] = Query(None),
     offset: Optional[int] = None,
@@ -141,7 +153,7 @@ def read_participations_to_activity(
 
 
 @router.delete("/{id}", response_model=schemas.Msg)
-def delete_participation_to_activity(
+def delete_participation_from_me(
     id: int,
     db: Session = Depends(deps.get_db),
     current_account: models.Account = Depends(deps.get_current_active_account)
