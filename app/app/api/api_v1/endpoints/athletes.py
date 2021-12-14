@@ -3,9 +3,9 @@
 @author: Liam
 """
 
-from typing import Any, List, Optional, Literal, Union
-from pydantic import confloat, constr
-from fastapi import APIRouter, Depends, Query, HTTPException, Body
+from typing import Any, List
+from pydantic import constr
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import crud, models, schemas
 from app.api import deps
@@ -15,27 +15,21 @@ from lxml import html
 router = APIRouter()
 
 
-@router.get("/me", response_model=List[schemas.AthletesBase])
+@router.post("/me", response_model=List[schemas.AthletesBase])
 async def get_athletes(
-        radius: Optional[confloat(ge=1.0, le=320)] = 10.0,
-        me_excluded: Optional[bool] = None,
-        postal_code: Optional[int] = None,
-        sport_ids: Optional[List[int]] = Query(None),
-        levels: Optional[
-            Union[List[Literal["débutant", "amateur", "intermédiaire", "confirmé", "expert"]], None]] = Query(None),
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
+        data_in: schemas.FilterAthletesRadius,
         db: Session = Depends(deps.get_db),
         current_account: models.Account = Depends(deps.get_current_active_account)
 ) -> Any:
     """
     Get curated list of athletes
     """
+    postal_code = data_in.postal_code
     if not postal_code:
         postal_code = crud.account_data.get_by_owner(db=db, owner_username=current_account.username).postcode
 
     postcodes = {postal_code}
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=40.0) as client:
         geo_response = await client.get(
             f"https://nominatim.openstreetmap.org/search?q={postal_code}&format=jsonv2&countrycodes=fr&addressdetails=1"
         )
@@ -59,7 +53,7 @@ async def get_athletes(
                 'Cache-Control': 'no-cache'
             }
             postcode_response = await client.get(
-                f"https://www.freemaptools.com/ajax/fr/get-all-french-postcodes-inside.php?radius={radius}&lat={lat}&lng={lon}",
+                f"https://www.freemaptools.com/ajax/fr/get-all-french-postcodes-inside.php?radius={data_in.radius}&lat={lat}&lng={lon}",
                 headers=headers
             )
             post_data = postcode_response.text
@@ -71,16 +65,17 @@ async def get_athletes(
                 status_code=404,
                 detail="The submitted postal code was not recognized.",
             )
-    if sport_ids and (max(sport_ids) > 116 or min(sport_ids) < 1):
+    if data_in.sport_ids and (max(data_in.sport_ids) > 116 or min(data_in.sport_ids) < 1):
         raise HTTPException(
             status_code=404,
             detail="One or multiple of the sports specified weren't found on the server",
         )
 
-    data = crud.participation.get_athletes(db=db, current_account=current_account.username,
-                                           postcodes=list(postcodes), me_excluded=me_excluded,
-                                           sport_ids=sport_ids,
-                                           level_names=levels, offset=offset, limit=limit)
+    data = crud.participation.get_athletes(
+        db=db, current_account=current_account.username,
+        postcodes=list(postcodes), me_excluded=data_in.me_excluded,
+                                           sport_ids=data_in.sport_ids,
+                                           level_names=data_in.levels, offset=data_in.offset, limit=data_in.limit)
     users = []
     for participation in data:
         obj = next(filter(lambda user: user['account'].owner_username == participation.user.username, users), None)
@@ -92,29 +87,25 @@ async def get_athletes(
     return users
 
 
-@router.get("/{usersame}", response_model=List[schemas.Account_Data])
+@router.post("/{username}", response_model=List[schemas.Account_Data])
 async def get_athletes_by_username(
         username: constr(strip_whitespace=True),
-        me_excluded: Optional[bool] = None,
-        postal_code: Optional[int] = None,
-        sport_ids: Optional[List[int]] = Query(None),
-        levels: Optional[
-            Union[List[Literal["débutant", "amateur", "intermédiaire", "confirmé", "expert"]], None]] = Query(None),
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
+        data_in: schemas.FilterAthletes,
         db: Session = Depends(deps.get_db),
         current_account: models.Account = Depends(deps.get_current_active_account)
 ) -> Any:
     """
     Get list of athletes by username hint
     """
-    if sport_ids and (max(sport_ids) > 116 or min(sport_ids) < 1):
+    if data_in.sport_ids and (max(data_in.sport_ids) > 116 or min(data_in.sport_ids) < 1):
         raise HTTPException(
             status_code=404,
             detail="One or multiple of the sports specified weren't found on the server",
         )
-    data = crud.account_data.get_athletes_by_name(db=db, current_account=current_account.username,
-                                                  username=username, me_excluded=me_excluded,
-                                                  postcode=postal_code, sport_ids=sport_ids,
-                                                  level_names=levels, offset=offset, limit=limit)
+    data = crud.account_data.get_athletes_by_name(
+        db=db, current_account=current_account.username,
+        username=username, me_excluded=data_in.me_excluded,
+        postcode=data_in.postal_code, sport_ids=data_in.sport_ids,
+        level_names=data_in.levels, offset=data_in.offset, limit=data_in.limit
+        )
     return data

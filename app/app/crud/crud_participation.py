@@ -21,7 +21,7 @@ class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
 
     def get_by_user_and_id(self, db: Session, *, id: int, participant: str) -> Optional[Participation]:
         return db.query(Participation).filter(
-            Participation.activity_id == id and Participation.participant == participant).first()
+            Participation.activity_id == id, Participation.participant == participant).first()
 
     def get_by_user(self, db: Session, *, participant: str, sport_id: int = None, active: bool = None,
                     postcode: str = None, level_names: list = [],

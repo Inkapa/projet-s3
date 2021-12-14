@@ -8,4 +8,4 @@ from .misc import Sport, Level
 from .activity import Activity, ActivityCreate, ActivityUpdate, ActivityWithParticipants
 from .participation import Participation, ParticipationCreate, ParticipationActivity, ParticipationUser, \
     CreateParticipationActivity, CreateParticipationUser
-from .athletes import AthletesBase, SportsLevels
+from .athletes import AthletesBase, SportsLevels, FilterAthletes, FilterAthletesRadius

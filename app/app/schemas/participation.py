@@ -7,7 +7,7 @@ from pydantic import BaseModel, constr
 from app.schemas.activity import Activity
 from app.schemas.account import Account
 from app.schemas.misc import Level
-from typing import Literal
+from typing import Literal, Optional, Union, List
 
 
 class ParticipationBase(BaseModel):

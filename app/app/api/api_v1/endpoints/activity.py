@@ -49,6 +49,9 @@ def update_activity_me(
     """
     Update an activity for current user
     """
+
+    if len(data_in.levels) == 0:
+        del data_in.levels
     activity = crud.activity.get(db=db, id=activity_id)
     if not activity:
         raise HTTPException(
@@ -162,8 +165,8 @@ def read_activities(
     active: Optional[bool] = None,
     sport_id: Optional[int] = None,
     postcode: Optional[str] = None,
-    exclude_participating: Optional[bool] = None,
-    me_excluded: Optional[bool] = None,
+    exclude_participating: Optional[bool] = True,
+    me_excluded: Optional[bool] = True,
     offset: Optional[int] = None,
     limit: Optional[int] = None,
     levels: Optional[

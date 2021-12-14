@@ -35,7 +35,6 @@ def add_participation_to_me(
             status_code=422,
             detail=f"You are the creator of this activity.",
         )
-
     if crud.participation.get_by_user_and_id(db=db, id=data_in.activity_id, participant=current_account.username):
         raise HTTPException(
             status_code=422,

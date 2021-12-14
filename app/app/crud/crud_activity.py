@@ -59,16 +59,20 @@ class CRUDActivity(CRUDBase[Activity, ActivityCreate, None]):
         if me_excluded:
             queries.append(Activity.organizer != current_account)
         if exclude_participating:
-            queries.append((Participation.participant != current_account) | (Participation.participant == None))
+            subquery = db.query(Activity.id).filter(Participation.participant == current_account, Participation.activity_id == Activity.id).subquery()
+            print(subquery)
+            queries.append((Participation.activity_id.not_in(subquery)) | (Participation.participant == None))
         if levels:
             level_ids = (level.id for level in level.get_by_names(db=db, names=levels))
             queries.append(Reserved.c.level_id.in_(level_ids))
-        count = (db.query(distinct(Participation.participant).label('participant_count'))
-                 .filter(Participation.activity_id == Activity.id)
-                 )
-        count.subquery()
+        print(str(db.query(Activity)
+            .join(Reserved, Reserved.c.activity_id == Activity.id)
+            .join(Participation, Participation.activity_id == Activity.id, isouter=True)
+            .filter(*queries)
+            .offset(offset)
+            .limit(limit)))
         return (
-            db.query(Activity, )
+            db.query(Activity)
             .join(Reserved, Reserved.c.activity_id == Activity.id)
             .join(Participation, Participation.activity_id == Activity.id, isouter=True)
             .filter(*queries)
