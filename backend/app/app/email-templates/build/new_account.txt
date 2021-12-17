@@ -1,0 +1,10 @@
+Bienvenue!
+
+Prêt à bouger et faire de nouvelles rencontres {{ username }}? Vous y êtes presque!
+
+Pour finaliser votre inscription, veuillez confirmer votre compte en appuyant sur le bouton ci-dessous:
+
+{{ link }}
+
+Le lien et bouton expireront dans {{ valid_hours }} heures.
+Si vous n'êtes pas à l'origine de cette inscription, vous pouvez alors ignorer cet email.
