@@ -160,6 +160,7 @@ export default {
       GestionActivities.updateActivity(requestData).then((message) => {
         this.loading = false;
         this.message = message;
+        this.$router.push("/userActivities");
       }).catch((error) => {
         this.loading = false;
         this.error = error;

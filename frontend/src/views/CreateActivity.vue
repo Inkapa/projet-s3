@@ -216,6 +216,7 @@ export default {
             sport_id: 0,
             levels: [],
           };
+          this.$router.push("/userActivities");
         }).catch((error) => {
           this.loading = false;
           this.error = error;
