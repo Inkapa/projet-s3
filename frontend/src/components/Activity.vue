@@ -26,14 +26,10 @@
           <option v-for="level in this.activityInfo.levels" :value="level.level" v-bind:key="level.id">{{ level.level }}</option>
         </select>
       </div>
-      <div v-else class="mb-3">
-        <p>Vous participez à cette activité.</p>
-        <button v-if="!owner" @click="removeMyParticipation" class="btn btn-danger"> Annuler ? </button>
-      </div>
       <p v-if="!loading" class="pt-2">Il y a déjà {{ this.activityInfo.participant_count }} participants !</p>
 
       <!--Div pour modifier/supprimer l'activité-->
-      <div v-if="owner">
+      <div v-if="owner && this.activityInfo.active">
         <button @click="modifActivity" class="btn btn-primary float-start">Modifier</button>
         <button @click="deleteActivity" class="btn btn-danger float-end">Supprimer</button>
       </div>
@@ -52,6 +48,7 @@ export default {
     participant: {default: false, type: Boolean},
     owner: {default: false, type: Boolean},
   },
+  emits: ['remove'],
   data() {
     return {
       id: this.activityInfo.id,
@@ -71,6 +68,7 @@ export default {
     deleteActivity() {
       GestionActivities.deleteActivity(this.id).then(() => {
         this.message = "L'activité a bien été supprimée.";
+        this.$emit('remove', this.id)
       }).catch((error) => {
         this.error = error;
       });
@@ -80,17 +78,10 @@ export default {
       GestionParticipations.addMyParticipation(reqData).then(() => {
         this.message = "Vous êtes bien inscrit à cette activité !";
         this.userParticipe = true;
+        this.$emit('remove', this.id)
       }).catch(() =>{
         this.error = "Veuillez chosir votre niveau";
       })
-    },
-    removeMyParticipation() {
-      GestionParticipations.removeMyParticipation(this.id).then(() => {
-        this.message = "Vous êtes bien désinscrit de cette activité !";
-        this.$forceUpdate();
-      }).catch((error) =>{
-        this.error = error;
-      });
     }
   },
   beforeMount() {
@@ -101,7 +92,7 @@ export default {
 <style scoped>
 .activity{
   box-shadow: -3px 9px 20px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  background-color: rgb(74, 152, 255);
+  background-color: rgb(0, 60, 128);
   color: white;
   margin: 2em;
 }
