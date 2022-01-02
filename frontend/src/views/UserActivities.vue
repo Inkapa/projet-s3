@@ -15,7 +15,13 @@
           color="#ff1d5e"
       />
       <div class="d-flex flex-column flex-sm-row flex-wrap  mb-5" v-if="activities">
-          <Activity v-for="activity in activities" v-bind:key="activity.id" :activity-info="activity" :owner="true"/>
+          <Activity
+              v-for="activity in activities"
+              v-bind:key="activity.id"
+              :activity-info="activity"
+              :owner="true"
+              @remove="removeActivity"
+          />
       </div>
       <div v-if="this.message" class="alert alert-danger" role="alert">
           {{this.message}}
@@ -62,7 +68,10 @@ export default {
         eventChangeTitle(){
             const data = {title: "Vos Activités"};
             this.$emit('updateTitleName', data);
-        }
+        },
+      removeActivity(id){
+        this.activities = this.activities.filter(activity => activity.id !== id)
+      }
     },
     beforeCreate() {
         if (!this.isAuthenticated) {
