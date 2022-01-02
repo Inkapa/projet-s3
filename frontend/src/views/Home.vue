@@ -26,7 +26,14 @@
     />
     <div class="d-flex flex-column flex-wrap padding" v-if="activities">
 
-        <Activity v-for="activity in activities" v-bind:key="activity.id" :activity-info="activity" :participant="true" />
+        <Activity
+            v-for="activity in activities"
+            v-bind:key="activity.id"
+            :activity-info="activity"
+            :participant="true"
+            @remove="removeActivity"
+
+        />
     </div>
   </perfect-scrollbar>
 </template>
@@ -45,6 +52,7 @@ export default {
     return {
 
       activitiesRequestInfo: {
+        active: true,
         postcode: "51100",
         offset: 0
       },
@@ -79,6 +87,10 @@ export default {
     eventChangeTitle(){
       const data = {title: "Home"};
       this.$emit('updateTitleName', data);
+    },
+    removeActivity(id){
+      console.log(id)
+      this.activities = this.activities.filter(activity => activity.id !== id)
     }
   },
   beforeCreate() {
