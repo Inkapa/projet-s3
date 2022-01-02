@@ -2,6 +2,23 @@ const API_URL = "http://157.90.237.150/api/v1/";
 
 
 class GestionParticipations{
+
+
+    async getActiveUserParticipations(participationRequestInfo){
+        const headers = {"Authorization": "Bearer " + localStorage.getItem('token')};
+        const requestOptions = {
+            headers: headers,
+            method: 'GET',
+        }
+        const response = await fetch(API_URL + 'participation/me?' + new URLSearchParams(participationRequestInfo).toString(), requestOptions);
+        const data = await response.json();
+        if (!response.ok){
+            const error = (data) || response.status;
+            return Promise.reject(error.detail);
+        }
+        return data
+    }
+
     //TO DO:
     async addMyParticipation(requestInfo) {
         const headers = {"Authorization": "Bearer " + localStorage.getItem('token')};
