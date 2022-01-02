@@ -9,6 +9,7 @@ import CreateActivity from '../views/CreateActivity.vue'
 import ActivityPage from '../views/ActivityPage.vue'
 import User from '../views/User.vue'
 import Sportives from '../views/Sportives.vue'
+import UserParticipations from '../views/UserParticipations.vue'
 
 const routes = [{
         path: '/',
@@ -29,6 +30,11 @@ const routes = [{
         path: '/userActivities',
         name: 'UserActivities',
         component: UserActivities
+    },
+    {
+        path: '/userParticipations',
+        name: 'UserParticipations',
+        component: UserParticipations
     },
     {
         path: '/createActivity',
@@ -59,15 +65,6 @@ const routes = [{
         path: '/user/:username',
         name: 'User',
         component: User
-    },
-    {
-        path: '/about',
-        name: 'About',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/About.vue')
     }
 ]
 const router = createRouter({
