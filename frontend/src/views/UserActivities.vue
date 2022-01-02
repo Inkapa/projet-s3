@@ -8,24 +8,29 @@
               <label class="form-check-label" for="flexSwitchCheckChecked">Activités actives</label>
           </div>
       </div>
-      <SwappingSquaresSpinner class="align-self-center"
-          v-if="loading"
-          :animation-duration="1000"
-          :size="65"
-          color="#ff1d5e"
+    <div class="d-flex flex-column justify-content-center align-items-center mt-4">
+      <SwappingSquaresSpinner
+        v-if="loading"
+        :animation-duration="1000"
+        :size="65"
+        color="#ff1d5e"
       />
-      <div class="d-flex flex-column flex-sm-row flex-wrap  mb-5" v-if="activities">
-          <Activity
-              v-for="activity in activities"
-              v-bind:key="activity.id"
-              :activity-info="activity"
-              :owner="true"
-              @remove="removeActivity"
-          />
-      </div>
-      <div v-if="this.message" class="alert alert-danger" role="alert">
-          {{this.message}}
-      </div>
+    </div>
+    <div v-show="this.message" class="alert alert-success mt-3" ref="alert" role="alert">
+      {{ this.message }}
+    </div>
+    <div v-show="this.error" class="alert alert-danger mt-3" role="alert">
+      {{ this.error }}
+    </div>
+    <div class="d-flex flex-column flex-sm-row flex-wrap  mb-5" v-if="activities">
+        <Activity
+            v-for="activity in activities"
+            v-bind:key="activity.id"
+            :activity-info="activity"
+            :owner="true"
+            @remove="removeActivity"
+        />
+    </div>
   </perfect-scrollbar>
 </template>
 <script>
@@ -47,6 +52,7 @@ export default {
             },
             activities: null,
             message: null,
+            error: null,
             loading: false
         }
     },
@@ -58,7 +64,7 @@ export default {
                 this.activities = data;
             }).catch((error) => {
                 this.loading = false;
-                this.message = error;
+                this.error = error;
             })
         },
         logout() {
@@ -69,8 +75,14 @@ export default {
             const data = {title: "Vos Activités", id: 2};
             this.$emit('updateTitleName', data);
         },
-      removeActivity(id){
+      removeActivity(id, message){
+          this.message = message
         this.activities = this.activities.filter(activity => activity.id !== id)
+        this.$refs.alert.classList.add('fade-out')
+        this.$refs.alert.onanimationend = () => {
+          this.message = null
+          this.$refs.alert.classList.remove('fade-out')
+        }
       }
     },
     beforeCreate() {

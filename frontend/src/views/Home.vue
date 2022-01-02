@@ -1,7 +1,7 @@
 <template>
   <!-- barre de recherche -->
   <perfect-scrollbar>
-    <div class="d-flex flex-column justify-content-center align-items-center pt-3" v-if="!loading">
+    <div class="d-flex flex-column justify-content-center align-items-center pt-3">
       <h4 class="fw-bold">Filtres : </h4>
       <div class="d-flex mb-3 align-items-center">
         <label class="form-label">Code Postal</label>
@@ -17,13 +17,20 @@
       </div>
       <button @click="getActivities()" class="btn btn-primary m-3">Chercher</button>
       <button @click="resetSearch()" class="btn btn-danger">Reset</button>
+      <ScalingSquaresSpinner class="align-self-center m-5"
+         v-if="loading"
+         :animation-duration="2500"
+         :size="65"
+         color="#ff1d5e"
+      />
     </div>
-    <ScalingSquaresSpinner class="align-self-center m-5"
-      v-if="loading"
-      :animation-duration="1250"
-      :size="65"
-      color="#ff1d5e"
-    />
+
+    <div v-show="this.message" class="alert alert-success mt-3" ref="alert" role="alert">
+      {{ this.message }}
+    </div>
+    <div v-show="this.error" class="alert alert-danger mt-3" role="alert">
+      {{ this.error }}
+    </div>
     <div class="d-flex flex-column flex-wrap padding" v-if="activities">
 
         <Activity
@@ -58,6 +65,7 @@ export default {
       },
       activities: null,
       message: null,
+      error: null,
       loading: false,
       sports: null,
       levels: ["débutant", "amateur", "intermédiaire", "confirmé", "expert"],
@@ -73,7 +81,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.message = error;
+          this.error = error;
         });
     },
     resetSearch() {
@@ -88,9 +96,14 @@ export default {
       const data = {title: "Home", id: 1};
       this.$emit('updateTitleName', data);
     },
-    removeActivity(id){
-      console.log(id)
+    removeActivity(id, message){
+      this.message = message
       this.activities = this.activities.filter(activity => activity.id !== id)
+      this.$refs.alert.classList.add('fade-out')
+      this.$refs.alert.onanimationend = () => {
+        this.message = null
+        this.$refs.alert.classList.remove('fade-out')
+      }
     }
   },
   beforeCreate() {

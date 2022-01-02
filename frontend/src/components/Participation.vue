@@ -1,10 +1,4 @@
 <template>
-  <div v-if="this.message" class="alert alert-success mt-3" role="alert">
-    {{ this.message }}
-  </div>
-  <div v-if="this.error" class="alert alert-danger mt-3" role="alert">
-    {{ this.error }}
-  </div>
   <div class="card text-center m-3 flex-grow-1 activity">
     <div class="card-header">{{ this.participationInfo.activity.title }}</div>
     <div class="card-body">
@@ -54,7 +48,7 @@ export default {
     removeMyParticipation() {
       GestionParticipations.removeMyParticipation(this.id).then(() => {
         this.message = "Vous êtes bien désinscrit de cette activité !";
-        this.$emit('remove', this.id);
+        this.$emit('remove', this.id, this.message);
       }).catch((error) =>{
         this.error = error;
       });

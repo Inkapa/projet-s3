@@ -8,12 +8,20 @@
         <label class="form-check-label" for="flexSwitchCheckChecked">Participation actives</label>
       </div>
     </div>
-    <SwappingSquaresSpinner class="align-self-center"
-                            v-if="loading"
-                            :animation-duration="1000"
-                            :size="65"
-                            color="#ff1d5e"
-    />
+    <div class="d-flex flex-column justify-content-center align-items-center mt-4">
+      <SwappingSquaresSpinner
+          v-if="loading"
+          :animation-duration="1000"
+          :size="65"
+          color="#ff1d5e"
+      />
+    </div>
+    <div v-show="this.message" class="alert alert-success mt-3" ref="alert" role="alert">
+      {{ this.message }}
+    </div>
+    <div v-show="this.error" class="alert alert-danger mt-3" role="alert">
+      {{ this.error }}
+    </div>
     <div class="d-flex flex-column flex-sm-row flex-wrap  mb-5" v-if="participations">
       <Participation
           v-for="participation in participations"
@@ -21,9 +29,6 @@
           :participation-info="participation"
           @remove="removeParticipation"
       />
-    </div>
-    <div v-if="this.message" class="alert alert-danger" role="alert">
-      {{this.message}}
     </div>
   </perfect-scrollbar>
 </template>
@@ -46,6 +51,7 @@ export default {
       },
       participations: null,
       message: null,
+      error: null,
       loading: false
     }
   },
@@ -57,7 +63,7 @@ export default {
         this.participations = data;
       }).catch((error) => {
         this.loading = false;
-        this.message = error;
+        this.error = error;
       })
     },
     logout() {
@@ -68,8 +74,14 @@ export default {
       const data = {title: "Participations", id: 2};
       this.$emit('updateTitleName', data);
     },
-    removeParticipation(id){
+    removeParticipation(id, message){
+      this.message = message
       this.participations = this.participations.filter(participation => participation.activity.id !== id)
+      this.$refs.alert.classList.add('fade-out')
+      this.$refs.alert.onanimationend = () => {
+        this.message = null
+        this.$refs.alert.classList.remove('fade-out')
+      }
     }
   },
   beforeCreate() {

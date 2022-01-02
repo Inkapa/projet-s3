@@ -1,8 +1,5 @@
 <template>
-  <div v-if="this.message" class="alert alert-success mt-3" role="alert">
-    {{ this.message }}
-  </div>
-  <div v-if="this.error" class="alert alert-danger mt-3" role="alert">
+  <div v-show="this.error" class="alert alert-danger mt-3" role="alert">
     {{ this.error }}
   </div>
   <div class="card text-center m-3 flex-grow-1 activity">
@@ -68,7 +65,7 @@ export default {
     deleteActivity() {
       GestionActivities.deleteActivity(this.id).then(() => {
         this.message = "L'activité a bien été supprimée.";
-        this.$emit('remove', this.id)
+        this.$emit('remove', this.id, this.message)
       }).catch((error) => {
         this.error = error;
       });
@@ -78,7 +75,7 @@ export default {
       GestionParticipations.addMyParticipation(reqData).then(() => {
         this.message = "Vous êtes bien inscrit à cette activité !";
         this.userParticipe = true;
-        this.$emit('remove', this.id)
+        this.$emit('remove', this.id, this.message)
       }).catch(() =>{
         this.error = "Veuillez chosir votre niveau";
       })
