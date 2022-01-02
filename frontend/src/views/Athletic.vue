@@ -33,11 +33,9 @@
     </div>
   </div>
   </template>
-  </template>
 
 <script>
 import Activity from "../components/Activity.vue";
-import Profile from "../components/Profile.vue";
 export default {
   name: "Athletic",
   components: {
