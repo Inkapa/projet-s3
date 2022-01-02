@@ -27,7 +27,7 @@
             </div>
             <div class="mb-3">
                 <label for="about" class="form-label">Description</label>
-                <input type="text" name="about" id="about" v-model="this.updatableData.about"
+                <textarea type="text" name="about" id="about" v-model="this.updatableData.about"
                 minlength="0" maxlength="300" class="form-control" :disabled="disableEdit"/>
             </div>
             <div class="mb-3">

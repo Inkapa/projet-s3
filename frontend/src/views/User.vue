@@ -10,7 +10,7 @@
 
         <div class="mb-3">
           <label for="about" class="form-label">Description</label>
-          <input type="text" name="about" id="about" v-model="this.infos.about"
+          <textarea type="text" name="about" id="about" v-model="this.infos.about"
                  minlength="0" maxlength="300" class="form-control" disabled/>
         </div>
         <div class="mb-3">
