@@ -180,5 +180,23 @@ nav{
   cursor: pointer;
 }
 
+.fade-out {
+  animation: fade 5s;
+  -webkit-animation: fade 5s;
+  -moz-animation: fade 5s;
+}
 
+/* Animate opacity */
+@keyframes fade {
+  from { opacity: 1 }
+  to { opacity: 0 }
+}
+@-moz-keyframes fade {
+  from { opacity: 1 }
+  to { opacity: 0 }
+}
+@-webkit-keyframes fade {
+  from { opacity: 1 }
+  to { opacity: 0 }
+}
 </style>
