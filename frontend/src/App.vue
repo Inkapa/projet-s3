@@ -44,24 +44,28 @@ export default {
         },
         {
           id: 2,
-          icon: "fa fa-coffee",
+          icon: "fa fa-dumbbell",
           title: "Activités",
           childs: [
             {
               id: 201,
-              icon: "fa fa-calendar-check",
-              title: "Vos Activités",
+              icon: "fa fa-calendar",
               path: {name: "UserActivities"}
             },
             {
               id: 202,
-              icon: "fa fa-calendar",
-              title: "Créer votre activité",
+              icon: "fa fa-calendar-plus",
               path: {name: "CreateActivity"}
+            },
+            {
+              id: 203,
+              icon: "fa fa-calendar-check",
+              path: {name: "UserParticipations"}
             }
           ]
         },
-        { id: 3, icon: "fa fa-user", title: "Les gens", path: {name: "Sportives"}},
+        { id: 3, icon: "fa fa-shopping-cart", title: "Boutique", path: {name: "UserParticipations"}},
+        { id: 4, icon: "fa fa-user", title: "Utilisateurs", path: {name: "Sportives"}},
         // { id: 4, icon: "fa fa-bell", title: "Messages" },
       ],
   }),
@@ -147,7 +151,7 @@ nav{
   background-image: linear-gradient(to right, #0084ff, #00f2ff);
   color: transparent;
   -webkit-background-clip: text;
-  background-clip: text;
+  background-clip: inherit;
 }
 
 .fas {
