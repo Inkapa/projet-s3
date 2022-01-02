@@ -79,7 +79,7 @@
         this.$router.push("/");
       },
       eventChangeTitle(){
-            const data = {title: "Les Sportifs"};
+            const data = {title: "Les Sportifs", id: 4};
             this.$emit('updateTitleName', data);
         }
     },

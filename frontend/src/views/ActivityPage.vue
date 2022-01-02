@@ -167,7 +167,7 @@ export default {
       })
     },
     eventChangeTitle(){
-      const data = {title: "Activité"};
+      const data = {title: "Activité", id: 2};
       this.$emit('updateTitleName', data);
     }
   },

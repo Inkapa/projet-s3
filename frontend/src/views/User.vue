@@ -70,7 +70,7 @@ export default {
       })
     },
     eventChangeTitle(){
-      const data = {title: "Utilisateur"};
+      const data = {title: "Utilisateur", id: 4};
       this.$emit('updateTitleName', data);
     }
   },

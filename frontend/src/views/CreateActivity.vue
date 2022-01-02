@@ -227,7 +227,7 @@ export default {
       this.$router.push("/");
     },
     eventChangeTitle(){
-      const data = {title: "Creér votre Activité"};
+      const data = {title: "Creér votre Activité", id: 2};
       this.$emit('updateTitleName', data);
     }
   },

@@ -78,6 +78,7 @@ export default {
     value: {
       default: null,
     },
+    test: Number,
     options: {
       type: Array,
       default: () => [],
@@ -250,6 +251,8 @@ export default {
       this.showable = !this.showable;
     },
     isActive(button, value = this.value) {
+      console.log('val', this.value)
+      console.log('test', this.test)
       return (
           button.id == value ||
           (button.childs || []).find((child) => child.id == value)

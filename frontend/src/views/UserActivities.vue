@@ -66,7 +66,7 @@ export default {
             this.$router.push('/');
         },
         eventChangeTitle(){
-            const data = {title: "Vos Activités"};
+            const data = {title: "Vos Activités", id: 2};
             this.$emit('updateTitleName', data);
         },
       removeActivity(id){

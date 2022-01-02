@@ -151,7 +151,7 @@ export default {
             });
         },
         eventChangeTitle(){
-            const data = {title: "Profil"};
+            const data = {title: "Profil", id: 4};
             this.$emit('updateTitleName', data);
         }
     },

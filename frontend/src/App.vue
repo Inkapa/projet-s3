@@ -18,7 +18,7 @@
     </div>
     <!-- Affiche la NavBar que quand la personne est loggedin -->
     <nav id="nav-bottom" v-if="isAuthenticated" class="navbar fixed-bottom navbar-light bg-light">
-      <VueBottomNavigation foregroundColor="#FFFFFF" :badgeColor="color" :value="selected" :options="options" v-model="selected" />
+      <VueBottomNavigation foregroundColor="#FFFFFF" :badgeColor="color" :options="options" v-model="selected" />
     </nav>
   </div>
 
@@ -77,6 +77,7 @@ export default {
   methods: {
     updateTitleName(data) {
       this.actualPage = data.title;
+      this.selected = data.id;
     }
   }
 };
