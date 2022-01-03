@@ -15,7 +15,7 @@
           Chercher
         </button>
       </div>
-      <div class="d-flex flex-column flex-sm-row flex-wrap">
+      <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-center">
         <ScalingSquaresSpinner class="align-self-center"
                                v-if="loading"
                                :animation-duration="2500"
@@ -24,7 +24,7 @@
         />
       </div>
 
-      <div class="d-flex flex-column flex-sm-row flex-wrap pb-5" v-if="sportives">
+      <div class="d-flex flex-column flex-sm-row flex-wrap justify-content-center pb-5" v-if="sportives">
 
         <Profil v-for="sportive in sportives" v-bind:key="sportive.account.last_name" :profilInfo="sportive"/>
       </div>
