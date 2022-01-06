@@ -1,34 +1,28 @@
 <template>
-    <div class="flex-grow-1 d-flex flex-column">
-        <header class="myHed mt-3">
-            <p>Réinitialiser votre mot de passe</p>
-            <img src="/images/tpms.ico" alt="logo">
-        </header>
+    <div class="flex-grow-1 d-flex flex-column justify-content">
+      <header class="myHed header">
+        <p class="p-3">Réinitialisation</p>
+      </header>
+      <img src="/images/tpms.ico" alt="logo" class="logo">
         <!-- formulaire de connexion -->
         <form
-            class="container flex-grow-1 d-flex flex-column justify-content-around mt-5"
+            class="container flex-grow-1 d-flex flex-column justify-content-center"
             name="loginForm"
             @submit.prevent="resetPassword"
         >
-            <div>
-                <label>
-                <input
-                    v-model="this.email"
-                    class="myInput"
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Email"
-                    required
-                />
-                </label>
-                <p class="text mt-2">Entrer votre email ici</p>
-            </div>
-            <div>
-                <button class="form-control button" type="submit">
-                    Envoyer
-                </button>
-            </div>
+            <input
+                v-model="this.email"
+                class="align-self-center"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                required
+            />
+            <p class="text mt-2">Entrer votre email ici</p>
+            <button class="form-control button align-self-center" type="submit">
+              Envoyer
+            </button>
         </form>
         <div v-if="message" class="alert alert-info align-items-center" role="alert">
             <strong>{{ this.message }}</strong>
@@ -91,6 +85,16 @@ export default {
 
 <style scoped>
 input {
+  padding: 10px 10px 10px 20px;
+  border-radius: 25px;
+  background-image: linear-gradient(to right, #0084ff, #00f2ff);
+  color: #fff;
+  border: none;
+  display: block;
+  width: 60vw;
+}
+
+input {
   display: block;
   text-align: center;
   left: 50%;
@@ -111,5 +115,22 @@ input {
   cursor: pointer;
 }
 
+
+
+.logo {
+  position:absolute;
+  border-radius:50%;
+  border:3px solid white;
+  left:50%;
+  margin-left:-55px;
+  margin-top: 11vh;
+}
+
+.header {
+  position:relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 5vh;
+}
 
 </style>

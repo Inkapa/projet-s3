@@ -45,12 +45,13 @@
         </label>
       </div>
       <router-link
+          class="align-self-center"
           to="/resetpwd"
           v-slot="{href, navigate}">
         <button
             type="button"
             :href="href" @click="navigate"
-            class="btn btn-outline-primary btn-lg mx-auto">
+            class="form-control button">
           Mot de passe oublié ?
         </button>
       </router-link>
