@@ -26,6 +26,33 @@
         required
     >
     </textarea>
+    <div class="mb-3">
+      <label for="adresse" class="form-label">Adresse</label>
+      <input
+          type="text"
+          class="form-control"
+          maxlength="45"
+          placeholder="ex : 267 Rue de Neufchâtel"
+          id="adresse"
+          name="adresse"
+          v-model="updatableData.address"
+          required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="cdPost" class="form-label">Code Postal</label>
+      <input
+          type="text"
+          class="form-control"
+          maxlength="5"
+          pattern="[0-9]{5}"
+          placeholder="ex : 75012"
+          id="cdPost"
+          name="cdPost"
+          v-model="updatableData.postcode"
+          required
+      />
+    </div>
     <div>
       <div class="form-check form-check-inline">
         <input
@@ -127,6 +154,8 @@ export default {
           title: this.updatableData.title,
           description: this.updatableData.description,
           levels: this.updatableData.levels,
+          address: this.updatableData.address,
+          postcode: this.updatableData.postcode
         }
       };
 
