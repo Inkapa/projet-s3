@@ -1,8 +1,4 @@
-const API_URL = "http://157.90.237.150/api/v1/";
-
-
 class GestionParticipations{
-
 
     async getActiveUserParticipations(participationRequestInfo){
         const headers = {"Authorization": "Bearer " + localStorage.getItem('token')};
@@ -10,7 +6,7 @@ class GestionParticipations{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(API_URL + 'participation/me?' + new URLSearchParams(participationRequestInfo).toString(), requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'participation/me?' + new URLSearchParams(participationRequestInfo).toString(), requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -27,7 +23,7 @@ class GestionParticipations{
             method: 'POST',
             body: JSON.stringify(requestInfo),
         }
-        const response = await fetch(API_URL + 'participation/me', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'participation/me', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -42,7 +38,7 @@ class GestionParticipations{
             headers: headers,
             method: 'DELETE',
         }
-        const response = await fetch(API_URL + 'participation/' + id, requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'participation/' + id, requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;

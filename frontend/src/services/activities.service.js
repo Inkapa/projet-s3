@@ -1,5 +1,3 @@
-const API_URL = "http://157.90.237.150/api/v1/";
-
 /*
  * class pour gérer toutes les requêtes en lien avec les activités 
 */
@@ -12,7 +10,7 @@ class GestionActivities{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(API_URL + 'activity/me?' + new URLSearchParams(activitiesRequestInfo).toString(), requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'activity/me?' + new URLSearchParams(activitiesRequestInfo).toString(), requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -27,7 +25,7 @@ class GestionActivities{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(API_URL + 'activity?' + new URLSearchParams(activitiesRequestInfo).toString(), requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'activity?' + new URLSearchParams(activitiesRequestInfo).toString(), requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -42,7 +40,7 @@ class GestionActivities{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(API_URL + 'activity/' + activityId, requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'activity/' + activityId, requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -58,7 +56,7 @@ class GestionActivities{
             method: 'PUT',
             body: JSON.stringify(activityData),
         }
-        const response = await fetch(API_URL + 'activity/me', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'activity/me', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -73,7 +71,7 @@ class GestionActivities{
             headers: headers,
             method: 'DELETE'
         }
-        const response = await fetch(API_URL + 'activity/' + activityId, requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'activity/' + activityId, requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -89,7 +87,7 @@ class GestionActivities{
             method: 'POST',
             body: JSON.stringify(activitiesInfo)
         };
-        const response = await fetch(API_URL + 'activity/me', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'activity/me', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -104,7 +102,7 @@ class GestionActivities{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(API_URL + 'misc/sports', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'misc/sports', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -119,7 +117,7 @@ class GestionActivities{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(API_URL + 'misc/levels', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'misc/levels', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;

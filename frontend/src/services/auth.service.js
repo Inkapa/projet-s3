@@ -1,5 +1,3 @@
-const API_URL = "http://157.90.237.150/api/v1/";
-
 /*
  * Ici c'est la classe qui gère le login et la création de compte
  * Pour les erreurs c'est fait directement par Liam dans le body.detail
@@ -15,7 +13,7 @@ class AuthService {
             headers: headers,
             method: 'POST',
         };
-        const response = await fetch(API_URL + 'login/access-token', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'login/access-token', requestOptions);
         const data = await response.json();
         // Si réponse 400/500 ou si il n'y a pas de token, cela renvoi une erreur 
         if (!response.ok || !data.access_token) {
@@ -34,7 +32,7 @@ class AuthService {
             headers: headers,
             method: 'POST',
         };
-        const response = await fetch(API_URL + 'register', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'register', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -49,7 +47,7 @@ class AuthService {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ "email": email })
         }
-        const response = await fetch(API_URL + 'password-recovery', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'password-recovery', requestOptions);
         const data = await response.json();
         if (!response.ok || response.status == 404){
             const error = (data) || response.status;
@@ -64,7 +62,7 @@ class AuthService {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newData)
         }
-        const response = await fetch(API_URL + 'verify/password', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'verify/password', requestOptions);
         const data = await response.json();
         if (!response.ok || response.status == 404){
             const error = (data) || response.status;

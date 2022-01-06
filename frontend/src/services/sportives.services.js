@@ -1,5 +1,3 @@
-const API_URL = "http://157.90.237.150/api/v1/";
-
 /*
  * Classe pour récupérer les données de l'utilisateur 
  */
@@ -11,7 +9,7 @@ class SportivesInformations{
             method: 'POST',
             body: JSON.stringify(dataInfo)
         }
-        const response = await fetch(API_URL + 'athletes/me', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'athletes/me', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -27,7 +25,7 @@ class SportivesInformations{
             method: 'GET',
             // body: JSON.stringify(dataInfo)
         }
-        const response = await fetch(API_URL + 'account_data/' + dataInfo, requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'account_data/' + dataInfo, requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
