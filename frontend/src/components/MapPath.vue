@@ -1,23 +1,31 @@
 <template>
-    <div id='map' ref="mapRef" class="flex-grow-1">
-      <div ref="messageBox" class='tt-overlay-panel -center js-message-box' hidden>
-        <button ref="messageBoxClose" class='tt-overlay-panel__close js-message-box-close'></button>
-        <span ref="messageBoxContent" class='tt-overlay-panel__content'></span>
+    <div v-show="!loading" id='map' ref="mapRef" class="flex-grow-1">
+      <div ref="start" class="route-marker">
+        <div class="icon tt-icon -white -start"></div>
+      </div>
+      <div ref="finish" class="route-marker">
+        <div class="icon tt-icon -white -finish"></div>
       </div>
     </div>
-    <div ref="start" class="route-marker">
-      <div class="icon tt-icon -white -start"></div>
-    </div>
-    <div ref="finish" class="route-marker">
-      <div class="icon tt-icon -white -finish"></div>
-    </div>
+  <div v-if="loading" class="flex-grow-1 d-flex flex-column justify-content-center">
+    <SwappingSquaresSpinner
+        :animation-duration="1000"
+        :size="150"
+        color="#ff1d5e"
+        class="align-self-center"
+    />
+  </div>
 </template>
 
 <script>
+import { SwappingSquaresSpinner } from 'epic-spinners'
 import { onMounted,  ref } from 'vue'
 export default {
   name: 'MapPath',
   props: ['address'],
+  components: {
+    SwappingSquaresSpinner
+  },
   setup(props) {
     const mapRef = ref(null)
     const start = ref(null)
@@ -26,11 +34,8 @@ export default {
     const messageBox = ref(null)
     const messageBoxContent = ref(null)
     const messageBoxClose = ref(null)
-    let messages = {
-      permissionDenied: 'Permission denied. You can change your browser settings' +
-          'to allow usage of geolocation on this domain.',
-      notAvailable: 'Geolocation data provider not available.'
-    };
+    const loading = ref(true)
+
     const getCoords = async () => {
       const pos = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -86,9 +91,8 @@ export default {
         }
       });
 
-      bindEvents(geolocateControl);
-
       map.addControl(geolocateControl);
+      loading.value = false
     })
 
     function addMarkers(feature, map) {
@@ -113,32 +117,8 @@ export default {
       throw new Error('Map style does not contain any layer with fill-extrusion type.');
     }
 
-    function bindEvents(geolocateControl) {
-      geolocateControl.on('error', handleError);
-      messageBoxClose.value.addEventListener('click', handleMessageBoxClose);
-    }
-
-    function handleMessageBoxClose() {
-      messageBox.value.setAttribute('hidden', true);
-    }
-
-    function displayErrorMessage(message) {
-      messageBoxContent.value.textContent = message;
-      messageBox.value.removeAttribute('hidden');
-    }
-
-    function handleError(error) {
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          displayErrorMessage(messages.permissionDenied);
-          break;
-        case error.POSITION_UNAVAILABLE:
-        case error.TIMEOUT:
-          displayErrorMessage(messages.notAvailable);
-      }
-    }
     return {
-      mapRef, start, finish, messageBox, messageBoxContent, messageBoxClose
+      mapRef, start, finish, messageBox, messageBoxContent, messageBoxClose, loading
     }
   }
 }
@@ -186,5 +166,6 @@ export default {
 .tt-icon.-start.-white {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath fill-rule='nonzero' stroke='white' d='M-19.5-19.5h55v55h-55z'/%3E%3Cpath fill='white' d='M15.493.015a.4.4 0 0 1 .492.493L11.728 15.66a.4.4 0 0 1-.757.036l-2.914-7.55a.4.4 0 0 0-.23-.229L.257 5.015a.4.4 0 0 1 .035-.758l15.2-4.242z'/%3E%3C/g%3E%3C/svg%3E");
 }
+
 
 </style>
