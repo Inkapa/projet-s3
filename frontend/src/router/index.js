@@ -42,9 +42,10 @@ const routes = [{
         component: CreateActivity
     },
     {
-        path: '/activityDetails',
+        path: '/activityDetails/:id',
         name: 'ActivityDetails',
-        component: ActivityDetails
+        component: ActivityDetails,
+        props: true
     },
     {
         path: '/login',
