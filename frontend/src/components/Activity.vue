@@ -5,6 +5,7 @@
   <div class="card text-center m-3 flex-grow-1 activity">
     <div class="card-header">{{ this.activityInfo.title }}</div>
     <div class="card-body">
+
       <h5 class="card-title">{{ this.activityInfo.sport.name }}</h5>
       <p class="card-text">
         {{ this.activityInfo.description }}
@@ -30,9 +31,10 @@
       <p v-if="!loading && !this.activityInfo.active" class="pt-2">Il y a eu {{ this.activityInfo.participant_count }} participants !</p>
 
       <!--Div pour modifier/supprimer l'activité-->
-      <div v-if="owner && this.activityInfo.active">
-        <button @click="$emit('edit', id)" class="btn btn-primary float-start">Modifier</button>
-        <button @click="deleteActivity" class="btn btn-danger float-end">Supprimer</button>
+      <div>
+        <button  v-if="owner && this.activityInfo.active" @click="$emit('edit', id)" class="btn btn-primary float-start">Modifier</button>
+        <router-link :to="{name: 'ActivityDetails', params: {id:id}}" class="btn btn-light">Plus de détails</router-link>
+        <button  v-if="owner && this.activityInfo.active" @click="deleteActivity" class="btn btn-danger float-end">Supprimer</button>
       </div>
     </div>
     <div class="card-footer text-light">{{ this.activityInfo.postcode }} - {{ this.activityInfo.address }}</div>

@@ -16,13 +16,14 @@
         <strong>Niveau : </strong>
         <span class="badge rounded-pill bg-success mx-1">{{  participationInfo.level.level }}</span>
       </p>
-      <!--Div pour pouvoir annuler la participation-->
-      <div v-if="participationInfo.activity.active">
-        <button @click="removeMyParticipation" class="btn btn-danger"> Annuler </button>
-      </div>
       <p v-if="!loading && participationInfo.activity.active" class="pt-2">Il y a déjà {{ participationInfo.activity.participant_count }} participants !</p>
       <p v-if="!loading && !participationInfo.activity.active" class="pt-2">Il y a eu {{ participationInfo.activity.participant_count }} participants !</p>
+      <!--Div pour pouvoir annuler la participation-->
+      <div class="d-flex justify-content-around">
+        <router-link :to="{name: 'ActivityDetails', params: {id:id}}" class="btn btn-light">Plus de détails</router-link>
 
+        <button v-if="participationInfo.activity.active" @click="removeMyParticipation" class="btn btn-danger float-end"> Annuler </button>
+      </div>
     </div>
     <div class="card-footer text-light">{{ participationInfo.activity.postcode }} - {{ participationInfo.activity.address }}</div>
   </div>
