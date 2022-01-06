@@ -44,22 +44,6 @@
         "Decrivez votre activité (300 caractères maximum)"
         </textarea>
       </div>
-
-      <div class="mb-3">
-        <label for="cdPost" class="form-label">Code Postal</label>
-        <input
-          type="text"
-          class="form-control"
-          maxlength="5"
-          pattern="[0-9]{5}"
-          placeholder="ex : 75012"
-          id="cdPost"
-          name="cdPost"
-          v-model="this.activitiesRequestInfo.postcode"
-          required
-        />
-      </div>
-
       <div class="mb-3">
         <label for="adresse" class="form-label">Adresse</label>
         <input
@@ -73,7 +57,20 @@
           required
         />
       </div>
-
+      <div class="mb-3">
+        <label for="cdPost" class="form-label">Code Postal</label>
+        <input
+            type="text"
+            class="form-control"
+            maxlength="5"
+            pattern="[0-9]{5}"
+            placeholder="ex : 75012"
+            id="cdPost"
+            name="cdPost"
+            v-model="this.activitiesRequestInfo.postcode"
+            required
+        />
+      </div>
       <div class="mb-3">
         <label for="dateDeb" class="form-label">Date</label>
         <input
