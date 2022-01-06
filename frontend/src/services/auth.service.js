@@ -34,8 +34,22 @@ class AuthService {
             headers: headers,
             method: 'POST',
         };
-        console.log(userInfo);
         const response = await fetch(API_URL + 'register', requestOptions);
+        const data = await response.json();
+        if (!response.ok){
+            const error = (data) || response.status;
+            return Promise.reject(error.detail);
+        }
+        return Promise.resolve(data);
+    }
+
+    async resetpwd(email){
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "email": email })
+        }
+        const response = await fetch(API_URL + 'password-recovery', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;

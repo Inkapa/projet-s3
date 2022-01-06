@@ -44,7 +44,16 @@
           </button>
         </label>
       </div>
-      <span class="check_1">Mot de passe oublié ?</span>
+      <router-link
+          to="/resetpwd"
+          v-slot="{href, navigate}">
+        <button
+            type="button"
+            :href="href" @click="navigate"
+            class="btn btn-outline-primary btn-lg mx-auto">
+          Mot de passe oublié ?
+        </button>
+      </router-link>
     </form>
     <div v-if="authFail" class="alert alert-danger align-items-center" role="alert">
       <strong>{{ this.message }}</strong>
@@ -112,6 +121,9 @@ export default {
           setTimeout(() => this.authFail = false, 3000)
         });
     },
+    resetPwd: function() {
+      this.$router.push({ name: "ResetPwd" });
+    }
   },
 };
 </script>
