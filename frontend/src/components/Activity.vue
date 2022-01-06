@@ -9,8 +9,11 @@
       <p class="card-text">
         {{ this.activityInfo.description }}
       </p>
-      <p class="card-text">
+      <p class="card-text" v-if="this.activityInfo.active">
         <strong>Se déroule le :</strong> {{ this.activityInfo.event_date }}
+      </p>
+      <p class="card-text" v-if="!this.activityInfo.active">
+        <strong>S'est déroulé le :</strong> {{ this.activityInfo.event_date }}
       </p>
       <p class="card-text">
         <strong>Niveau : </strong>
@@ -23,11 +26,12 @@
           <option v-for="level in this.activityInfo.levels" :value="level.level" v-bind:key="level.id">{{ level.level }}</option>
         </select>
       </div>
-      <p v-if="!loading" class="pt-2">Il y a déjà {{ this.activityInfo.participant_count }} participants !</p>
+      <p v-if="!loading && this.activityInfo.active" class="pt-2">Il y a déjà {{ this.activityInfo.participant_count }} participants !</p>
+      <p v-if="!loading && !this.activityInfo.active" class="pt-2">Il y a eu {{ this.activityInfo.participant_count }} participants !</p>
 
       <!--Div pour modifier/supprimer l'activité-->
       <div v-if="owner && this.activityInfo.active">
-        <button @click="modifActivity" class="btn btn-primary float-start">Modifier</button>
+        <button @click="$emit('edit', id)" class="btn btn-primary float-start">Modifier</button>
         <button @click="deleteActivity" class="btn btn-danger float-end">Supprimer</button>
       </div>
     </div>
@@ -45,7 +49,7 @@ export default {
     participant: {default: false, type: Boolean},
     owner: {default: false, type: Boolean},
   },
-  emits: ['remove'],
+  emits: ['remove', 'edit'],
   data() {
     return {
       id: this.activityInfo.id,
@@ -59,9 +63,6 @@ export default {
   computed: {
   },
   methods: {
-    modifActivity() {
-      this.$router.push({ name: 'ActivityPage', params: { id: this.id }});
-    },
     deleteActivity() {
       GestionActivities.deleteActivity(this.id).then(() => {
         this.message = "L'activité a bien été supprimée.";
@@ -80,9 +81,6 @@ export default {
         this.error = "Veuillez chosir votre niveau";
       })
     }
-  },
-  beforeMount() {
-
   }
 };
 </script>
