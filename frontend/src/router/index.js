@@ -6,12 +6,12 @@ import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
 import UserActivities from '../views/UserActivities.vue'
 import CreateActivity from '../views/CreateActivity.vue'
-import ActivityPage from '../views/ActivityPage.vue'
 import User from '../views/User.vue'
 import Sportives from '../views/Sportives.vue'
 import UserParticipations from '../views/UserParticipations.vue'
 import ResetPwd from '../views/ResetPwd.vue'
 import ChangePwd from '../views/ChangePwd.vue'
+import ActivityDetails from "../views/ActivityDetails";
 
 const routes = [{
         path: '/',
@@ -44,9 +44,9 @@ const routes = [{
         component: CreateActivity
     },
     {
-        path: '/activityPage/:id',
-        name: 'ActivityPage',
-        component: ActivityPage
+        path: '/activityDetails',
+        name: 'ActivityDetails',
+        component: ActivityDetails
     },
     {
         path: '/login',

@@ -1,25 +1,25 @@
 <template>
   <div class="card text-center m-3 flex-grow-1 activity">
-    <div class="card-header">{{ this.participationInfo.activity.title }}</div>
+    <div class="card-header">{{ participationInfo.activity.title }}</div>
     <div class="card-body">
-      <h5 class="card-title">{{ this.participationInfo.activity.sport.name }}</h5>
+      <h5 class="card-title">{{ participationInfo.activity.sport.name }}</h5>
       <p class="card-text">
-        {{ this.participationInfo.activity.description }}
+        {{ participationInfo.activity.description }}
       </p>
       <p class="card-text">
-        <strong>Se déroule le :</strong> {{ this.participationInfo.activity.event_date }}
+        <strong>Se déroule le :</strong> {{ participationInfo.activity.event_date }}
       </p>
       <p class="card-text">
         <strong>Niveau : </strong>
-        <span class="badge rounded-pill bg-success mx-1">{{  this.participationInfo.level.level }}</span>
+        <span class="badge rounded-pill bg-success mx-1">{{  participationInfo.level.level }}</span>
       </p>
       <!--Div pour pouvoir annuler la participation-->
-      <div v-if="this.participationInfo.activity.active">
+      <div v-if="participationInfo.activity.active">
         <button @click="removeMyParticipation" class="btn btn-danger"> Annuler </button>
       </div>
-      <p v-if="!loading" class="pt-2">Il y a déjà {{ this.participationInfo.activity.participant_count }} participants !</p>
+      <p v-if="!loading" class="pt-2">Il y a déjà {{ participationInfo.activity.participant_count }} participants !</p>
     </div>
-    <div class="card-footer text-light">{{ this.participationInfo.activity.postcode }} - {{ this.participationInfo.activity.address }}</div>
+    <div class="card-footer text-light">{{ participationInfo.activity.postcode }} - {{ participationInfo.activity.address }}</div>
   </div>
 </template>
 

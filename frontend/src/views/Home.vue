@@ -55,6 +55,7 @@ export default {
     Activity,
     ScalingSquaresSpinner,
   },
+  emits: ['updateTitleName'],
   data() {
     return {
 

@@ -1,9 +1,9 @@
 <template>
   <div class="flex-grow-1 d-flex flex-column">
-    <header class="myHed mt-3">
-      <p>Connexion</p>
-      <img src="/images/tpms.ico" alt="logo">
+    <header class="myHed header">
+      <p class="p-3">Connexion</p>
     </header>
+    <img src="/images/tpms.ico" alt="logo" class="logo">
     <!-- formulaire de connexion -->
     <form
       class="container flex-grow-1 d-flex flex-column justify-content-around mt-5"
@@ -80,6 +80,7 @@ export default {
   components: {
     SemipolarSpinner
   },
+  emits: ['updateTitleName'],
   data() {
     return {
       loading: false,
@@ -151,5 +152,20 @@ input {
   cursor: pointer;
 }
 
+.logo {
+  position:absolute;
+  border-radius:50%;
+  border:3px solid white;
+  left:50%;
+  margin-left:-55px;
+  margin-top: 11vh;
+}
+
+.header {
+  position:relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 5vh;
+}
 
 </style>
