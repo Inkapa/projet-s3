@@ -1,8 +1,9 @@
 <template>
-  <div id="logo" class="mt-5">
-
-    <img src="/images/tpms.ico" alt="logo" />
-    <p class="title mt-5">Bienvenue</p>
+  <div id="logo" >
+    <header class="myHed header" >
+    </header>
+    <img src="/images/tpms.ico" alt="logo" class="logo">
+    <p class="title">Bienvenue</p>
   </div>
   <div class="mx-4">
     <p class="citation">
@@ -47,7 +48,10 @@
 </template>
 
 <script>
-
+export default {
+  name: "Accueil",
+  emits: ['updateTitleName']
+}
 </script>
 
 <style scoped>
@@ -69,9 +73,8 @@ button:hover a {
 }
 
 .title {
-
+  margin-top: 8vh;
   font-size: 40px;
-  margin-bottom: 10px;
   font-weight: 900;
   background-image: linear-gradient(to right, #0084ff, #00f2ff);
   color: transparent;
@@ -79,6 +82,21 @@ button:hover a {
   background-clip: text;
 }
 
+.logo {
+  position:absolute;
+  border-radius:50%;
+  border:3px solid white;
+  left:50%;
+  margin-left:-55px;
+  margin-top: -8vh;
+}
+
+.header {
+  position:relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 10vh;
+}
 
 </style>
 

@@ -1,11 +1,11 @@
 <template>
     <div class="flex-grow-1 d-flex flex-column">
-      <header class="myHed mt-3">
-        <p>Inscription</p>
-        <img src="/images/tpms.ico" alt="logo">
+      <header class="myHed header">
+        <p class="pt-3">Inscription</p>
       </header>
+      <img src="/images/tpms.ico" alt="logo" class="logo">
 
-      <form @submit.prevent="register" class="container flex-grow-1 d-flex flex-column justify-content-between">
+      <form @submit.prevent="register" class="container flex-grow-1 d-flex flex-column justify-content-between pt-5">
         <div v-if="suite" class="flex-grow-1 d-flex flex-column justify-content-around">
           <div>
             <label>
@@ -111,11 +111,11 @@
           <div>
             <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="gender" id="man" value="m" v-model="this.userInformation.data_in.gender">
-            <label class="form-check-label" for="inlineRadio1">Homme</label>
+            <label class="form-check-label">Homme</label>
           </div>
           <div class="form-check form-check-inline ">
             <input class="form-check-input" type="radio" name="gender" id="women" value="f" v-model="this.userInformation.data_in.gender">
-            <label class="form-check-label" for="inlineRadio1">Femme</label>
+            <label class="form-check-label">Femme</label>
           </div>
           </div>
         </div>
@@ -193,6 +193,7 @@ export default {
   components: {
     SemipolarSpinner,
   },
+  emits: ['updateTitleName'],
   data() {
     return {
       suite: true,
@@ -221,14 +222,14 @@ export default {
     };
   },
   computed: {
-    // Fonction pour savoir si le mec est connécté pour l'app
+    // Fonction pour savoir si l'utilisateur est connécté pour l'app
     isAuthenticated() {
       return this.$store.state.isAuthenticated;
     },
   },
   // à la création de la page (quand la page s'affiche en gros)
   created() {
-    // si le mec est connécté il est redirigé vers la page profile
+    // si l'utilisateur est connécté il est redirigé vers la page profile
     if (this.isAuthenticated) {
       this.$router.push({ name: "Home" });
     }
@@ -291,6 +292,22 @@ input {
 
 .grey option {
     background-color: rgb(115, 115, 119);
+}
+
+.logo {
+  position:absolute;
+  border-radius:50%;
+  border:3px solid white;
+  left:50%;
+  margin-left:-55px;
+  margin-top: 10vh;
+}
+
+.header {
+  position:relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 6vh;
 }
 
 </style>
