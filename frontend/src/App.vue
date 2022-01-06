@@ -18,7 +18,7 @@
     </div>
     <!-- Affiche la NavBar que quand la personne est loggedin -->
     <nav id="nav-bottom" v-if="isAuthenticated" class="navbar fixed-bottom navbar-light bg-light">
-      <VueBottomNavigation foregroundColor="#FFFFFF" :badgeColor="color" :options="options" v-model="selected" />
+      <VueBottomNavigation foregroundColor="#FFFFFF" :badgeColor="color" :options="options" :replaceRoute="true" :value="selected" v-model="selected" />
     </nav>
   </div>
 
@@ -64,8 +64,7 @@ export default {
             }
           ]
         },
-        { id: 3, icon: "fa fa-shopping-cart", title: "Boutique", path: {name: "UserParticipations"}},
-        { id: 4, icon: "fa fa-user", title: "Utilisateurs", path: {name: "Sportives"}},
+        { id: 3, icon: "fa fa-user", title: "Utilisateurs", path: {name: "Sportives"}},
         // { id: 4, icon: "fa fa-bell", title: "Messages" },
       ],
   }),
@@ -150,7 +149,7 @@ nav{
   margin-bottom: 10px;
   font-weight: 900;
   background-image: linear-gradient(to right, #0084ff, #00f2ff);
-  color: transparent;
+  color: white;
   -webkit-background-clip: text;
   background-clip: inherit;
 }
@@ -181,9 +180,9 @@ nav{
 }
 
 .fade-out {
-  animation: fade 5s;
-  -webkit-animation: fade 5s;
-  -moz-animation: fade 5s;
+  animation: fade 3s;
+  -webkit-animation: fade 3s;
+  -moz-animation: fade 3s;
 }
 
 /* Animate opacity */
