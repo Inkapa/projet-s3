@@ -84,11 +84,11 @@ const router = createRouter({
     routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     if ((to.path !== 'Accueil' && to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/resetpwd' && to.name !== 'ChangePwd') 
-//     && !localStorage.getItem('token')) next({ name: 'Login' })
-//     else next()
-// })
+router.beforeEach((to, from, next) => {
+    if ((to.path !== 'Accueil' && to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/resetpwd' && to.name !== 'ChangePwd') 
+    && !localStorage.getItem('token')) next({ name: 'Login' })
+    else next()
+})
 
 
 export default router
