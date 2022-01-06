@@ -53,7 +53,21 @@ class AuthService {
         const data = await response.json();
         if (!response.ok || response.status == 404){
             const error = (data) || response.status;
-            console.error("ça va là et c'est good");
+            return Promise.reject(error.detail);
+        }
+        return Promise.resolve(data.msg);
+    }
+
+    async newpwd(newData){
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newData)
+        }
+        const response = await fetch(API_URL + 'verify/password', requestOptions);
+        const data = await response.json();
+        if (!response.ok || response.status == 404){
+            const error = (data) || response.status;
             return Promise.reject(error.detail);
         }
         return Promise.resolve(data.msg);

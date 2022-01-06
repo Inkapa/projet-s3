@@ -11,6 +11,7 @@ import User from '../views/User.vue'
 import Sportives from '../views/Sportives.vue'
 import UserParticipations from '../views/UserParticipations.vue'
 import ResetPwd from '../views/ResetPwd.vue'
+import ChangePwd from '../views/ChangePwd.vue'
 
 const routes = [{
         path: '/',
@@ -71,6 +72,11 @@ const routes = [{
         path: '/resetpwd',
         name: 'ResetPwd',
         component: ResetPwd
+    },
+    {
+        path: '/reset-password',
+        name: 'ChangePwd',
+        component: ChangePwd
     }
 ]
 const router = createRouter({
@@ -78,10 +84,11 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    if ((to.path !== 'Accueil' && to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/resetpwd') && !localStorage.getItem('token')) next({ name: 'Login' })
-    else next()
-})
+// router.beforeEach((to, from, next) => {
+//     if ((to.path !== 'Accueil' && to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/resetpwd' && to.name !== 'ChangePwd') 
+//     && !localStorage.getItem('token')) next({ name: 'Login' })
+//     else next()
+// })
 
 
 export default router

@@ -89,6 +89,27 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+input {
+  display: block;
+  text-align: center;
+  left: 50%;
+}
+
+.text {
+  font-size: 15px;
+  color: #746f6f;
+}
+
+.button {
+  margin-top: 10px;
+  width: 250px;
+  border-radius: 25px;
+  background-image: linear-gradient(to right, #0084ff, #00f2ff);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 
 </style>
