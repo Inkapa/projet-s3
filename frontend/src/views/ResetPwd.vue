@@ -30,8 +30,18 @@
                 </button>
             </div>
         </form>
-        <div v-if="message" class="alert alert-danger align-items-center" role="alert">
+        <div v-if="message" class="alert alert-info align-items-center" role="alert">
             <strong>{{ this.message }}</strong>
+        </div>
+        <div v-if="fail" class="alert alert-danger align-items-center" role="alert">
+            <strong>{{ this.fail }}</strong>
+        </div>
+        <div v-if="loading" class="align-self-center">
+        <SemipolarSpinner
+        :animation-duration="2000"
+        :size="65"
+        color="#ff1d5e"
+        />
         </div>
     <footer class="wave">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -43,27 +53,36 @@
 
 <script>
 import AuthService from "../services/auth.service.js";
+import { SemipolarSpinner  } from 'epic-spinners'
 export default {
     name: "ResetPwd",
+    components: {
+        SemipolarSpinner
+    },
     data() {
         return {
             email: "",
             loading: false,
-            fail: false,
+            fail: "",
             message: ""
         }
     },
     methods: {
         resetPassword() {
             this.loading = true;
-            AuthService.resetPassword(this.email)
-            .then((data) => {
+            AuthService.resetpwd(this.email).then((data) => {
                 this.loading = false;
-                this.message = data.msg
-                setTimeout(() => this.$router.push({name: "ResetPwd"}));
+                this.message = data
+                setTimeout(() =>{
+                    this.$router.push({ name: "Login" });
+                    this.message = ""
+                    }, 3000);
             }).catch((error) => {
                 this.loading = false;
-                this.message = error;
+                this.fail = error;
+                setTimeout(() =>{
+                    this.fail = ""
+                    }, 3000);
             })
         }
     }

@@ -51,11 +51,12 @@ class AuthService {
         }
         const response = await fetch(API_URL + 'password-recovery', requestOptions);
         const data = await response.json();
-        if (!response.ok){
+        if (!response.ok || response.status == 404){
             const error = (data) || response.status;
+            console.error("ça va là et c'est good");
             return Promise.reject(error.detail);
         }
-        return Promise.resolve(data);
+        return Promise.resolve(data.msg);
     }
 }
 
