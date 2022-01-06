@@ -9,6 +9,8 @@ import CreateActivity from '../views/CreateActivity.vue'
 import User from '../views/User.vue'
 import Sportives from '../views/Sportives.vue'
 import UserParticipations from '../views/UserParticipations.vue'
+import ResetPwd from '../views/ResetPwd.vue'
+import ChangePwd from '../views/ChangePwd.vue'
 import ActivityDetails from "../views/ActivityDetails";
 
 const routes = [{
@@ -66,6 +68,16 @@ const routes = [{
         path: '/user/:username',
         name: 'User',
         component: User
+    },
+    {
+        path: '/resetpwd',
+        name: 'ResetPwd',
+        component: ResetPwd
+    },
+    {
+        path: '/reset-password',
+        name: 'ChangePwd',
+        component: ChangePwd
     }
 ]
 const router = createRouter({
@@ -74,7 +86,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if ((to.path !== 'Accueil' && to.path !== '/login' && to.path !== '/register' && to.path !== '/') && !localStorage.getItem('token')) next({ name: 'Login' })
+    if ((to.path !== 'Accueil' && to.path !== '/login' && to.path !== '/register' && to.path !== '/' && to.path !== '/resetpwd' && to.name !== 'ChangePwd') 
+    && !localStorage.getItem('token')) next({ name: 'Login' })
     else next()
 })
 
