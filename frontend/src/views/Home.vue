@@ -107,9 +107,15 @@ export default {
       }
     }
   },
-  beforeCreate() {
+  computed: {
+    // Fonction pour savoir si l'utilisateur est connécté pour l'app
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated;
+    },
+  },
+  created() {
     if (!this.isAuthenticated) {
-      this.logout;
+      this.logout();
     }
   },
   beforeMount() {

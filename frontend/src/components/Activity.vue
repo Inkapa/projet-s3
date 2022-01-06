@@ -13,7 +13,7 @@
         <strong>Se déroule le :</strong> {{ this.activityInfo.event_date }}
       </p>
       <p class="card-text" v-if="!this.activityInfo.active">
-        <strong>S'est déroulé le :</strong> {{ this.activityInfo.event_date }}
+        <strong>S'est déroulée le :</strong> {{ this.activityInfo.event_date }}
       </p>
       <p class="card-text">
         <strong>Niveau : </strong>
@@ -59,8 +59,6 @@ export default {
       levelSelected: null,
       userParticipe: false
     }
-  },
-  computed: {
   },
   methods: {
     deleteActivity() {

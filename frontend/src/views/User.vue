@@ -72,6 +72,21 @@ export default {
     eventChangeTitle(){
       const data = {title: "Utilisateur", id: 4};
       this.$emit('updateTitleName', data);
+    },
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/');
+    }
+  },
+  computed: {
+    // Fonction pour savoir si l'utilisateur est connécté pour l'app
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated;
+    },
+  },
+  created() {
+    if (!this.isAuthenticated) {
+      this.logout();
     }
   },
   beforeMount(){

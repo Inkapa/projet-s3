@@ -62,6 +62,12 @@
         loading: false,
       };
     },
+    computed: {
+      // Fonction pour savoir si l'utilisateur est connécté pour l'app
+      isAuthenticated() {
+        return this.$store.state.isAuthenticated;
+      },
+    },
     methods: {
       getSportives() {
         this.loading = true;
@@ -83,9 +89,9 @@
             this.$emit('updateTitleName', data);
         }
     },
-    beforeCreate() {
+    created() {
       if (!this.isAuthenticated) {
-        this.logout;
+        this.logout();
       }
     },
     beforeMount() {

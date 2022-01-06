@@ -198,6 +198,12 @@ export default {
       levels: ["débutant", "amateur", "intermédiaire", "confirmé", "expert"],
     };
   },
+  computed: {
+    // Fonction pour savoir si l'utilisateur est connécté pour l'app
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated;
+    },
+  },
   methods: {
     createActivity() {
       this.loading = true;
@@ -231,9 +237,9 @@ export default {
       this.$emit('updateTitleName', data);
     }
   },
-  beforeCreate() {
+  created() {
     if (!this.isAuthenticated) {
-      this.logout;
+      this.logout();
     }
   },
   beforeMount() {

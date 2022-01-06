@@ -155,9 +155,9 @@ export default {
             this.$emit('updateTitleName', data);
         }
     },
-    beforeCreate() {
+    created() {
         if (!this.isAuthenticated) {
-            this.logout;
+            this.logout();
         }
     },
     beforeMount() {

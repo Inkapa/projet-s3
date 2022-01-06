@@ -52,16 +52,18 @@ export default {
       this.$emit('updateTitleName', data);
     }
   },
-  beforeCreate() {
-    if (!this.isAuthenticated) {
-      this.logout;
-    }
+  computed: {
+    // Fonction pour savoir si l'utilisateur est connécté pour l'app
+    isAuthenticated() {
+      return this.$store.state.isAuthenticated;
+    },
   },
   created() {
+    if (!this.isAuthenticated) {
+      this.logout();
+    }
     this.updatableData = {...this.activity, ...this.updatableData}
     this.eventChangeTitle();
-  },
-  mounted() {
   }
 }
 </script>

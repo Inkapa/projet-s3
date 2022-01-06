@@ -6,8 +6,11 @@
       <p class="card-text">
         {{ participationInfo.activity.description }}
       </p>
-      <p class="card-text">
+      <p class="card-text" v-if="participationInfo.activity.active">
         <strong>Se déroule le :</strong> {{ participationInfo.activity.event_date }}
+      </p>
+      <p class="card-text" v-else>
+        <strong>S'est déroulée le :</strong> {{ participationInfo.activity.event_date }}
       </p>
       <p class="card-text">
         <strong>Niveau : </strong>
@@ -17,7 +20,9 @@
       <div v-if="participationInfo.activity.active">
         <button @click="removeMyParticipation" class="btn btn-danger"> Annuler </button>
       </div>
-      <p v-if="!loading" class="pt-2">Il y a déjà {{ participationInfo.activity.participant_count }} participants !</p>
+      <p v-if="!loading && participationInfo.activity.active" class="pt-2">Il y a déjà {{ participationInfo.activity.participant_count }} participants !</p>
+      <p v-if="!loading && !participationInfo.activity.active" class="pt-2">Il y a eu {{ participationInfo.activity.participant_count }} participants !</p>
+
     </div>
     <div class="card-footer text-light">{{ participationInfo.activity.postcode }} - {{ participationInfo.activity.address }}</div>
   </div>
@@ -39,8 +44,6 @@ export default {
       message: null,
     }
   },
-  computed: {
-  },
   methods: {
     // viewParticipation() {
     //   this.$router.push({ name: 'ParticipationPage', params: { id: this.id }});
@@ -53,9 +56,6 @@ export default {
         this.error = error;
       });
     }
-  },
-  beforeMount() {
-
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div id="logo" >
     <header class="myHed header" >
     </header>
-    <img src="/images/tpms.ico" alt="logo" class="logo">
+    <img src="images/tpms.ico" alt="logo" class="logo">
     <p class="title">Bienvenue</p>
   </div>
   <div class="mx-4">
