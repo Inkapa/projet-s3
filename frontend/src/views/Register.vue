@@ -277,7 +277,7 @@ input {
     width: 250px;
     border-radius: 25px;
     background-image: linear-gradient(to right, #0084ff, #00f2ff);
-    color: #fff;
+    color: #fff !important;
     font-weight: 700;
     cursor: pointer;
 }

@@ -166,11 +166,16 @@ nav{
   padding: 10px 10px 10px 40px;
   border-radius: 25px;
   background-image: linear-gradient(to right, #0084ff, #00f2ff);
-  color: #fff;
+  color: #fff !important;
   border: none;
   display: block;
   width: 60vw;
 }
+.myInput::placeholder {
+  color: #fff !important;
+  opacity: 1; /* Firefox */
+}
+
 .check_1 {
   font-weight: bold;
   color: rgb(36, 79, 134);
