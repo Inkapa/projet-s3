@@ -51,7 +51,7 @@ export default {
       let map = tt.map({
         key: process.env.VUE_APP_TOTOM_APIKEY,
         container: mapRef.value,
-        dragPan: false,
+        dragPan: true,
       });
       map.addControl(new tt.FullscreenControl());
       map.addControl(new tt.NavigationControl());
