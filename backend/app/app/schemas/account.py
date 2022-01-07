@@ -11,6 +11,9 @@ from pydantic import BaseModel, EmailStr, constr
 
 
 # Shared properties
+from app.schemas import Account_Data
+
+
 class AccountBase(BaseModel):
     username: constr(strip_whitespace=True, min_length=4, max_length=40)
     email: EmailStr
@@ -51,6 +54,8 @@ class AccountInDBBase(AccountBase):
 class Account(AccountInDBBase):
     pass
 
+class AccountWithData(AccountInDBBase):
+    data: Account_Data
 
 # Additional properties stored in DB
 class AccountInDB(AccountInDBBase):
