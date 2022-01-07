@@ -13,6 +13,7 @@ from app.crud.crud_misc import level
 from app.models.activity import Activity
 from app.models.participation import Participation
 from app.models.account import Account
+from app.models.account_data import Account_Data
 from app.models.level import Level
 from app.models.reserved import Reserved
 from app.schemas.activity import ActivityCreate, ActivityUpdate
@@ -36,9 +37,9 @@ class CRUDActivity(CRUDBase[Activity, ActivityCreate, None]):
             db.query(Activity)
             .join(Participation, Participation.activity_id == Activity.id, isouter=True)
             .join(Account, Account.username == Participation.participant, isouter=True)
+            .join(Account_Data, Account.username == Account_Data.owner_username, isouter=True)
             .join(Level, Level.id == Participation.level_id, isouter=True)
             .filter(Activity.id == id)
-
             .first())
 
 
@@ -48,34 +49,30 @@ class CRUDActivity(CRUDBase[Activity, ActivityCreate, None]):
             levels: list = [], offset: int = None, limit: int = None
     ) -> List[Activity]:
         queries = []
+        sort = Activity.event_date.desc()
         if organizer:
             queries.append(Activity.organizer == organizer)
         if sport_id:
             queries.append(Activity.sport_id == sport_id)
         if active:
             queries.append(Activity.event_date.is_(None) | (Activity.event_date >= datetime.date.today()))
+            sort = Activity.event_date.desc()
         if postcode:
             queries.append(Activity.postcode.ilike(f'%{postcode}%'))
         if me_excluded:
             queries.append(Activity.organizer != current_account)
         if exclude_participating:
             subquery = db.query(Activity.id).filter(Participation.participant == current_account, Participation.activity_id == Activity.id).subquery()
-            print(subquery)
             queries.append((Participation.activity_id.not_in(subquery)) | (Participation.participant == None))
         if levels:
             level_ids = (level.id for level in level.get_by_names(db=db, names=levels))
             queries.append(Reserved.c.level_id.in_(level_ids))
-        print(str(db.query(Activity)
-            .join(Reserved, Reserved.c.activity_id == Activity.id)
-            .join(Participation, Participation.activity_id == Activity.id, isouter=True)
-            .filter(*queries)
-            .offset(offset)
-            .limit(limit)))
         return (
             db.query(Activity)
             .join(Reserved, Reserved.c.activity_id == Activity.id)
             .join(Participation, Participation.activity_id == Activity.id, isouter=True)
             .filter(*queries)
+            .order_by(sort)
             .offset(offset)
             .limit(limit)
             .all())

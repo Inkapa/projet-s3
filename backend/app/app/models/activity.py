@@ -6,9 +6,10 @@ Created on Mon Nov  8 00:17:04 2021
 """
 from typing import TYPE_CHECKING
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, select, func, distinct
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, column_property
 from sqlalchemy.ext.hybrid import hybrid_property
 from app.db.base_class import Base
+import datetime
 
 from .reserved import Reserved
 
@@ -35,6 +36,8 @@ class Activity(Base):
     creator = relationship("Account", backref="created_activities", foreign_keys=[organizer])
     sport = relationship("Sport", backref="activities", lazy='subquery')
     levels = relationship("Level", secondary=Reserved, backref="activities", lazy='subquery')
+    active = column_property(event_date >= datetime.date.today())
+
 
     # participants
 
