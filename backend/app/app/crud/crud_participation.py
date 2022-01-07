@@ -27,10 +27,12 @@ class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
                     postcode: str = None, level_names: list = [],
                     offset: int = None, limit: int = None) -> List[Participation]:
         queries = [Participation.participant == participant]
+        sort = Activity.event_date.desc()
         if sport_id:
             queries.append(Activity.sport_id == sport_id)
         if active:
             queries.append(Activity.event_date.is_(None) | (Activity.event_date >= datetime.date.today()))
+            sort = Activity.event_date.asc()
         if postcode:
             queries.append(Activity.postcode.ilike(f'%{postcode}%'))
         if level_names:
@@ -40,6 +42,7 @@ class CRUDParticipation(CRUDBase[Participation, ParticipationCreate, None]):
             db.query(Participation)
                 .join(Activity, Activity.id == Participation.activity_id)
                 .filter(*queries)
+                .order_by(sort)
                 .offset(offset)
                 .limit(limit)
                 .all())
