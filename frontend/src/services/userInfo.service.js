@@ -9,7 +9,7 @@ class UserInformation{
             headers: headers,
             method: 'GET',
         }
-        const response = await fetch(process.env.VUE_APP_process.env.VUE_APP_API_URL + 'account/me', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'account/me', requestOptions);
         const data = await response.json();
         if (!response.ok || !data.username || !data.email){
             const error = (data) || response.status;
@@ -25,7 +25,7 @@ class UserInformation{
             headers: headers,
             method: 'GET'
         };
-        const response = await fetch(process.env.VUE_APP_process.env.VUE_APP_API_URL + 'account_data/me', requestOptions);
+        const response = await fetch(process.env.VUE_APP_API_URL + 'account_data/me', requestOptions);
         const data = await response.json();
         if (!response.ok){
             const error = (data) || response.status;
@@ -42,7 +42,7 @@ class UserInformation{
             method: 'PUT',
             body: JSON.stringify(newInformation)
         };
-        return await fetch(process.env.VUE_APP_process.env.VUE_APP_API_URL + 'account_data/me', requestOptions).then((response) => {
+        return await fetch(process.env.VUE_APP_API_URL + 'account_data/me', requestOptions).then((response) => {
             const data = response.json();
             if (!response.ok){
                 const error = (data) || response.status;
