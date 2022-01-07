@@ -68,7 +68,7 @@ def send_reset_password_email(email_to: str, username: str, token: str) -> None:
     with open(Path(settings.EMAIL_TEMPLATES_DIR) / "reset_password.txt") as f:
         template_text = f.read()
     server_host = settings.SERVER_HOST
-    link = f"http://157.90.237.150/reset-password?token={token}"
+    link = f"https://tpms.host/reset-password?token={token}"
     send_email(
         email_to=email_to,
         subject_template=subject,
@@ -92,7 +92,7 @@ def send_new_account_email(email_to: str, username: str, token: str) -> None:
     with open(Path(settings.EMAIL_TEMPLATES_DIR) / "new_account.txt") as f:
         template_text = f.read()
     server_host = settings.SERVER_HOST
-    link = f"http://157.90.237.150/api/v1/verify/account?token={token}"
+    link = f"https://dev.tpms.host/api/v1/verify/account?token={token}"
     send_email(
         email_to=email_to,
         subject_template=subject,
