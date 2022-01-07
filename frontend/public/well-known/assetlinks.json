@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "host.tpms.twa",
+                     "sha256_cert_fingerprints": ["44:30:75:C9:BC:97:DA:1C:69:48:0E:2D:51:A6:05:57:83:20:4B:CB:70:6B:CC:8E:8E:D7:CD:46:9D:85:95:14"] }
+      }
+]
