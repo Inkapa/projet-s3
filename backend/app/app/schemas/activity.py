@@ -6,12 +6,12 @@
 from typing import Optional, List, Literal
 import datetime
 from pydantic import BaseModel, constr
-from app.schemas.account import Account
+from app.schemas.account import AccountWithData
 from app.schemas.misc import Sport, Level
 
 
 class ParticipationUser(BaseModel):
-    user: Account
+    user: AccountWithData
     level: Level
 
     class Config:
@@ -26,7 +26,6 @@ class ActivityBase(BaseModel):
     postcode: constr(strip_whitespace=True, min_length=3, max_length=5)
     address: Optional[constr(max_length=100)] = None
     image: Optional[constr(strip_whitespace=True, max_length=300)] = None
-
 
 # Properties to receive on data creation
 class ActivityCreate(ActivityBase):
@@ -67,6 +66,7 @@ class ActivityInDBBase(ActivityBase):
 
 # Properties to return to client
 class Activity(ActivityInDBBase):
+    active: bool
     sport: Sport
     levels: List[Level]
 
